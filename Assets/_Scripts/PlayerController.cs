@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
 {
+    public bool Grounded => m_Grounded;
+    public float XVelocity => m_XVelocity;
+    public float YVelocity => m_YVelocity;
+
     [Tooltip("The player rigidbody")]
     [SerializeField] private Rigidbody2D m_RigidBody;
 
