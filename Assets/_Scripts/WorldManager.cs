@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WorldManager : MonoBehaviour
 {
@@ -17,13 +18,10 @@ public class WorldManager : MonoBehaviour
         firstCurrent = true;
     }
 
-    // Update is called once per frame
-    private void Update()
+    public void OnWorldSwitch(InputAction.CallbackContext ctx)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SwitchWorld();
-        }
+        Debug.Log("AAAAAA");
+        SwitchWorld();
     }
 
     private void SwitchWorld()
