@@ -13,35 +13,15 @@ public class WorldManager : MonoBehaviour
 
     private void Start()
     {
-        heaven.gameObject.SetActive(true);
-        hell.gameObject.SetActive(false);
-        firstCurrent = true;
-    }
-
-    public void OnWorldSwitch(InputAction.CallbackContext ctx)
-    {
-        if(!ctx.started) return;
-        Debug.Log("AAAAAA");
         SwitchWorld();
     }
 
     private void SwitchWorld()
     {
-        firstCurrent = !firstCurrent;
-
-        if (firstCurrent)
-        {
-            cam.backgroundColor = heaven.skyColor;
-            heaven.gameObject.SetActive(true);
-            hell.gameObject.SetActive(false);
-        }
-        else
-        {
-            cam.backgroundColor = hell.skyColor;
-            heaven.gameObject.SetActive(false);
-            hell.gameObject.SetActive(true);
-        }
-        
+        firstCurrent ^= true;
+        cam.backgroundColor = firstCurrent? heaven.skyColor : hell.skyColor;
+        heaven.gameObject.SetActive(firstCurrent);
+        hell.gameObject.SetActive(!firstCurrent);
     }
 
     private void OnGUI() 
