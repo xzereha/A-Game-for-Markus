@@ -20,6 +20,7 @@ public class WorldManager : MonoBehaviour
 
     public void OnWorldSwitch(InputAction.CallbackContext ctx)
     {
+        if(!ctx.started) return;
         Debug.Log("AAAAAA");
         SwitchWorld();
     }
@@ -41,5 +42,13 @@ public class WorldManager : MonoBehaviour
             hell.gameObject.SetActive(true);
         }
         
+    }
+
+    private void OnGUI() 
+    {
+        if(GUI.Button(new Rect(0, 0, 100, 40), "Swap World"))
+        {
+            SwitchWorld();
+        }
     }
 }

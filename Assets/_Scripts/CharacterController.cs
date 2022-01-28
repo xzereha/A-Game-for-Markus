@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-public class CharacterController : MonoBehaviour//, PlayerControls.IGameplayActions
+public class CharacterController : MonoBehaviour, PlayerControls.IGameplayActions
 {
     [SerializeField] private Rigidbody2D m_RigidBody;
     [SerializeField] private Collider2D m_Collider;
@@ -35,20 +35,20 @@ public class CharacterController : MonoBehaviour//, PlayerControls.IGameplayActi
         m_Gravity = (-2.0f * m_JumpHeight) / (m_TimeToApex * m_TimeToApex);
     }
 
-    //private void OnEnable() 
-    //{
-    //    if(m_Controls == null)
-    //    {
-    //        m_Controls = new PlayerControls();
-    //        m_Controls.Gameplay.SetCallbacks(this);
-    //    }
-    //    m_Controls.Gameplay.Enable();
-    //}
+    private void OnEnable() 
+    {
+        if(m_Controls == null)
+        {
+            m_Controls = new PlayerControls();
+            m_Controls.Gameplay.SetCallbacks(this);
+        }
+        m_Controls.Gameplay.Enable();
+    }
 
-    //private void OnDisable() 
-    //{
-    //    m_Controls.Gameplay.Disable();
-    //}
+    private void OnDisable() 
+    {
+        m_Controls.Gameplay.Disable();
+    }
 
     private void FixedUpdate() 
     {
@@ -68,6 +68,11 @@ public class CharacterController : MonoBehaviour//, PlayerControls.IGameplayActi
     {
         bool started = ctx.started && m_Grounded;
         m_YVelocity = started? m_JumpVelocity : m_YVelocity;
+    }
+
+    public void OnWorldSwitch(InputAction.CallbackContext ctx)
+    {
+
     }
 
     private void OnValidate() 
