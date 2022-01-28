@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(PlayerInput))]
-public class ChracterController : MonoBehaviour
+public class CharacterController : MonoBehaviour
 {
     [SerializeField] private LayerMask m_CollisionLayer;
     [SerializeField] private float m_JumpHeight = 2.0f;
