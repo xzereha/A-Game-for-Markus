@@ -60,6 +60,7 @@ public class MessageHandler : MonoBehaviour
 
     public static void TriggerEvent(string eventName)
     {
+        if(s_Instance == null) return;
         UnityEvent thisEvent = null;
         if(Instance.m_Events.TryGetValue(eventName, out thisEvent))
         {
