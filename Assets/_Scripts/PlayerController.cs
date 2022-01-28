@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
 {
     public bool Grounded => m_Grounded;
-    public float XVelocity => m_XVelocity;
+    public float XVelocity => m_InputDirection;
     public float YVelocity => m_YVelocity;
 
     [Tooltip("The player rigidbody")]
