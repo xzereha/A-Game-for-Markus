@@ -28,20 +28,17 @@ public class CharacterController : MonoBehaviour, PlayerControls.IGameplayAction
     private float m_YVelocity;
     private float m_InputDirection;
     private bool m_Grounded;
+    private bool m_Jumping;
 
     private void Start()
     {
-        m_JumpVelocity = (2 * m_JumpHeight) / m_TimeToApex;
-        m_Gravity = (-2.0f * m_JumpHeight) / (m_TimeToApex * m_TimeToApex);
+        CalulateJumpValues();
+        m_Controls ??= new PlayerControls();
+        m_Controls.Gameplay.SetCallbacks(this);
     }
 
     private void OnEnable() 
     {
-        if(m_Controls == null)
-        {
-            m_Controls = new PlayerControls();
-            m_Controls.Gameplay.SetCallbacks(this);
-        }
         m_Controls.Gameplay.Enable();
     }
 
@@ -54,10 +51,20 @@ public class CharacterController : MonoBehaviour, PlayerControls.IGameplayAction
     {
         RaycastHit2D hit = Physics2D.BoxCast(m_GroundCheckCollider.transform.position + (Vector3)m_GroundCheckCollider.offset, m_GroundCheckCollider.size, 0, Vector2.down, 0.0f, m_CollisionLayer);
         m_Grounded = hit.collider? true : false;
-        m_YVelocity = m_Grounded? Mathf.Max(m_YVelocity, 0) : m_YVelocity + m_Gravity * Time.deltaTime;
+        m_Jumping = m_Jumping && m_YVelocity > 0.0f;
+        m_YVelocity = m_Grounded? Mathf.Max(m_YVelocity, 0) : m_YVelocity + m_Gravity * (m_Jumping? 1.0f : m_FallingModifier)  * Time.deltaTime;
         transform.Translate(new Vector3(m_InputDirection * m_MovementSpeed * Time.deltaTime, m_YVelocity * Time.deltaTime, 0));
     }
 
+#region Helpers
+    private void CalulateJumpValues()
+    {
+        m_JumpVelocity = (2 * m_JumpHeight) / m_TimeToApex;
+        m_Gravity = (-2.0f * m_JumpHeight) / (m_TimeToApex * m_TimeToApex);
+    }
+#endregion
+
+#region Input Callbacks
     public void OnMovement(InputAction.CallbackContext ctx)
     {
         float dir = ctx.ReadValue<float>();
@@ -68,18 +75,21 @@ public class CharacterController : MonoBehaviour, PlayerControls.IGameplayAction
     {
         bool started = ctx.started && m_Grounded;
         m_YVelocity = started? m_JumpVelocity : m_YVelocity;
+        m_Jumping = ctx.performed && m_YVelocity > 0.0f;
     }
 
     public void OnWorldSwitch(InputAction.CallbackContext ctx)
     {
 
     }
+#endregion
+
+#region Editor
 
     private void OnValidate() 
     {
         // Update jump height incase the variable was changed
-        m_JumpVelocity = (2 * m_JumpHeight) / m_TimeToApex;
-        m_Gravity = (-2.0f * m_JumpHeight) / (m_TimeToApex * m_TimeToApex);
+        CalulateJumpValues();
     }
 
     private void Reset() 
@@ -88,4 +98,5 @@ public class CharacterController : MonoBehaviour, PlayerControls.IGameplayAction
         m_Collider = GetComponent<Collider2D>();
         m_CollisionLayer = 64;
     }
+#endregion
 }
