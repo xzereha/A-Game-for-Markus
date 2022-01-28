@@ -185,7 +185,7 @@ MonoBehaviour:
     m_Bits: 64
   m_JumpHeight: 2.2
   m_TimeToApex: 0.5
-  m_FallingModifier: 1
+  m_FallingModifier: 2
   m_MovementSpeed: 2
 --- !u!1 &1061334859147278896
 GameObject:

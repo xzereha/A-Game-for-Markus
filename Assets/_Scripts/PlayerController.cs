@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-public class CharacterController : MonoBehaviour, PlayerControls.IGameplayActions
+public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
 {
     [SerializeField] private Rigidbody2D m_RigidBody;
     [SerializeField] private Collider2D m_Collider;
@@ -22,7 +22,7 @@ public class CharacterController : MonoBehaviour, PlayerControls.IGameplayAction
     [Header("Movement")]
     [SerializeField] private float m_MovementSpeed = 2.0f;
 
-    private PlayerControls m_Controls;
+    private PlayerInput m_Controls;
     private float m_JumpVelocity;
     private float m_Gravity;
     private float m_YVelocity;
@@ -30,11 +30,15 @@ public class CharacterController : MonoBehaviour, PlayerControls.IGameplayAction
     private bool m_Grounded;
     private bool m_Jumping;
 
+    private void Awake() 
+    {
+        m_Controls = new PlayerInput();
+        m_Controls.Gameplay.SetCallbacks(this);
+    }
+
     private void Start()
     {
         CalulateJumpValues();
-        m_Controls ??= new PlayerControls();
-        m_Controls.Gameplay.SetCallbacks(this);
     }
 
     private void OnEnable() 
