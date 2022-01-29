@@ -43,6 +43,7 @@ public class Checkpoint : MonoBehaviour
         OnActivate?.Invoke(this);
         m_Active = true;
         m_Trigger.enabled = false;
+        m_AC.SetBool("Active", Active);
     }
 
     private void OnValidate() 
