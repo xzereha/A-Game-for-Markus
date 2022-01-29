@@ -7,7 +7,7 @@ public class FollowPlayerY : MonoBehaviour
     [SerializeField] private float dampTime = 0.5f;
     
     [SerializeField] private Transform target;
-    [SerializeField] private Camera camera;
+    [SerializeField] private Camera chadCamera;
 
     [SerializeField] private float maxY;
     [SerializeField] private float minY;
@@ -18,8 +18,8 @@ public class FollowPlayerY : MonoBehaviour
     {
         if (target)
         {
-            Vector3 point = camera.WorldToViewportPoint(target.position);
-            Vector3 delta = target.position - camera.ViewportToWorldPoint(new Vector3(point.x, 0.5f, point.z));
+            Vector3 point = chadCamera.WorldToViewportPoint(target.position);
+            Vector3 delta = target.position - chadCamera.ViewportToWorldPoint(new Vector3(point.x, 0.5f, point.z));
             Vector3 destination = transform.position + delta;
             Vector3 final = Vector3.SmoothDamp(transform.position, destination, ref velocity, dampTime);
 

@@ -8,8 +8,6 @@ public class PlayerAnimManager : MonoBehaviour
     [SerializeField] private Animator AC;
     [SerializeField] private PlayerController PC;
 
-    bool flip = false;
-
     private void FixedUpdate()
     {
         AC.SetBool("Grounded", PC.Grounded);
