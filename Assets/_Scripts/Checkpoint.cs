@@ -15,10 +15,12 @@ public class Checkpoint : MonoBehaviour
 
     [SerializeField] private Collider2D m_Trigger;
     [SerializeField] private bool m_Active;
+    [SerializeField] private Animator m_AC;
 
     private void Start() 
     {
         m_Trigger.enabled = !m_Active;
+        m_AC.SetBool("Active", Active);
     }
 
     private void OnEnable() 
