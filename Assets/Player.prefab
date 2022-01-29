@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 1061334858420184835}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,6 +172,9 @@ MonoBehaviour:
   m_CollisionLayer:
     serializedVersion: 2
     m_Bits: 64
+  m_KillZoneLayer:
+    serializedVersion: 2
+    m_Bits: 0
   m_JumpHeight: 1.5
   m_TimeToApex: 0.5
   m_FallingModifier: 2
