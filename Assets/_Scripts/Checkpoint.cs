@@ -17,6 +17,16 @@ public class Checkpoint : MonoBehaviour
     [SerializeField] private bool m_Active;
     [SerializeField] private Animator m_AC;
 
+    public void Activate()
+    {
+        if(m_Active) return;
+        
+        OnActivate?.Invoke(this);
+        m_Active = true;
+        m_Trigger.enabled = false;
+        m_AC.SetBool("Active", Active);
+    }
+
     private void Start() 
     {
         m_Trigger.enabled = !m_Active;
@@ -40,10 +50,7 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        OnActivate?.Invoke(this);
-        m_Active = true;
-        m_Trigger.enabled = false;
-        m_AC.SetBool("Active", Active);
+        Activate();
     }
 
     private void OnValidate() 

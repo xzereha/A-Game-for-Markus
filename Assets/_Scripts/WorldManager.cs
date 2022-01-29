@@ -41,6 +41,7 @@ public class WorldManager : MonoBehaviour
 
     public void SwitchWorld()
     {
+        Debug.Log("Swap World");
         firstCurrent ^= true;
         color = firstCurrent? heaven.skyColor : hell.skyColor;
         heaven.gameObject.SetActive(firstCurrent);
