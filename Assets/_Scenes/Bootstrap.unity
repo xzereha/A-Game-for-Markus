@@ -159,6 +159,8 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 7e9a83caae8bf8f4fa6e73b496b4cb8b, type: 3}
     scenePath: Assets/_Scenes/GameMenu.unity
   m_GameLevels:
+  - sceneAsset: {fileID: 102900000, guid: a27b2156281a80b479a89ac57323fdc1, type: 3}
+    scenePath: Assets/_Scenes/HugoTest.unity
   - sceneAsset: {fileID: 102900000, guid: d624efc02ab57e042975de6c6bfe0dd6, type: 3}
     scenePath: Assets/_Scenes/L1.unity
 --- !u!4 &637005313
