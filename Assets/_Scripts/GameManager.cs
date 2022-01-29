@@ -36,10 +36,12 @@ public class GameManager : MonoBehaviour
     {
         Instance.m_LevelIndex = 0;
         Instance.LoadSceneInternal(Instance.m_GameLevels[Instance.m_LevelIndex].ScenePath);
+        MessageHandler.TriggerEvent("GameStarted");
     }
 
     public static void LoadMainMenu()
     {
+        MessageHandler.TriggerEvent("GameStarted");
         Instance.LoadSceneInternal(Instance.m_MainMenu.ScenePath);
     }
 

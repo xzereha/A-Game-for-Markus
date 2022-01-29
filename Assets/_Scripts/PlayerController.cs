@@ -51,15 +51,18 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
     private bool m_Jumping; //!< If the player is still going upwards
     private float m_XVelocity; //!< Current X velocity of the player
     private float m_YVelocity; //!< Current Y velocity of the player
-
+    private bool m_DiedThisFrame; //!< If the player have died this frame
     public void Kill()
     {
+        if(m_DiedThisFrame) return;
+        m_DiedThisFrame = true;
         transform.position = WorldManager.CurrentCheckpoint;
         m_InputDirection = 0;
         m_Grounded = false;
         m_Jumping = false;
         m_XVelocity = 0;
         m_YVelocity = -1.0f;
+        MessageHandler.TriggerEvent("PlayerDied");
     }
 
     private void Awake() 
@@ -83,6 +86,11 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
     {
         MessageHandler.StopListening("KillPlayer", Kill);
         m_Controls.Gameplay.Disable();
+    }
+
+    private void Update()
+    {
+        m_DiedThisFrame = false;
     }
 
     private void FixedUpdate() 
