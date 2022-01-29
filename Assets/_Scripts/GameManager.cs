@@ -23,10 +23,19 @@ public class GameManager : MonoBehaviour
     private Scene m_GameMenuScene;
     private Scene m_ActiveLevel;
     private string m_SceneToLoad;
+    private int m_LevelIndex;
+
+    public static void LoadNextLevel()
+    {
+        Instance.m_LevelIndex++;
+        string sceneToLoad = Instance.m_LevelIndex < Instance.m_GameLevels.Length? Instance.m_GameLevels[Instance.m_LevelIndex].ScenePath : Instance.m_MainMenu.ScenePath;
+        Instance.LoadSceneInternal(sceneToLoad);
+    }
 
     public static void StartGame()
     {
-        Instance.LoadSceneInternal(Instance.m_GameLevels[0].ScenePath);
+        Instance.m_LevelIndex = 0;
+        Instance.LoadSceneInternal(Instance.m_GameLevels[Instance.m_LevelIndex].ScenePath);
     }
 
     public static void LoadMainMenu()

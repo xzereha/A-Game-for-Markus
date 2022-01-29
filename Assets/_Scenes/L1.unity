@@ -1097,10 +1097,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c885b3371a58a4cb50d36f94e78510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
+  cam: {fileID: 745192051}
   heaven: {fileID: 0}
   hell: {fileID: 0}
   m_CurrentCheckpoint: {fileID: 1364736998}
+  m_flipTime: 0
 --- !u!1001 &1061334858963533436
 PrefabInstance:
   m_ObjectHideFlags: 0
