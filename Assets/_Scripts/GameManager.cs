@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     public static void LoadMainMenu()
     {
-        MessageHandler.TriggerEvent("GameStarted");
+        MessageHandler.TriggerEvent("GameStopped");
         Instance.LoadSceneInternal(Instance.m_MainMenu.ScenePath);
     }
 

@@ -13,7 +13,7 @@ public class GameMenu : MonoBehaviour
         MessageHandler.StartListen("PauseGame", OpenMenu);
         MessageHandler.StartListen("PlayerDied", OnPlayerDeath);
         MessageHandler.StartListen("GameStarted", OnGameStart);
-        MessageHandler.StartListen("GameStarted", OnGameStop);
+        MessageHandler.StartListen("GameStopped", OnGameStop);
     }
 
     private void OnDestroy() 
