@@ -134,4 +134,19 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
         m_CollisionLayer = 64;
     }
 #endregion
+
+
+    // TODO!!!!!!!!! REMOVE!!!!!
+    private void OnGUI() 
+    {
+        if(GUI.Button(new Rect(0, 60, 100, 40), "Die"))
+        {
+            transform.position = WorldManager.CurrentCheckpoint;
+            m_InputDirection = 0;
+            m_Grounded = false;
+            m_Jumping = false;
+            m_XVelocity = 0;
+            m_YVelocity = -1.0f;
+        }
+    }
 }
