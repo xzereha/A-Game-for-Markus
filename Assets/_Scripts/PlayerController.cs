@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
 #endregion
 
 
-    // TODO!!!!!!!!! REMOVE!!!!!
+    #if UNITY_EDITOR
     private void OnGUI() 
     {
         if(GUI.Button(new Rect(0, 60, 100, 40), "Die"))
@@ -168,4 +168,5 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
             Kill();
         }
     }
+    #endif
 }

@@ -23,52 +23,85 @@ public class WorldManager : MonoBehaviour
 
     public static Vector3 CurrentCheckpoint => Instance.m_CurrentCheckpoint.Position;
 
-    [SerializeField] private Camera cam;
+    [SerializeField] private Camera m_Camera;
     [SerializeField] private WorldDesc heaven;
     [SerializeField] private WorldDesc hell;
     [SerializeField] private Checkpoint m_CurrentCheckpoint;
-    [SerializeField] private float m_flipTime;
+    [SerializeField] private bool m_ShouldWorldChange;
+    [SerializeField] private float m_TimeBeforeChange;
     private static WorldManager s_Instance;
     private bool firstCurrent;
     private Color32 color;
     private float m_timeToFlip;
 
-    private void Start()
+    public void ToggleAutoCycling()
     {
-        SwitchWorld();
-        StartCoroutine(Timer());
+        m_ShouldWorldChange ^= true;
     }
 
-    private void OnEnable() 
-    {
-        Checkpoint.OnActivate += UpdateCheckpoint;
-    }
-
-    private void OnDisable() 
-    {
-        Checkpoint.OnActivate -= UpdateCheckpoint;
-        s_Instance = s_Instance == this? null : s_Instance;
-    }
-
-    private void SwitchWorld()
+    public void SwitchWorld()
     {
         firstCurrent ^= true;
         color = firstCurrent? heaven.skyColor : hell.skyColor;
         heaven.gameObject.SetActive(firstCurrent);
-        hell.gameObject.SetActive(!firstCurrent);
+        hell?.gameObject.SetActive(!firstCurrent);
     }
 
-    private void UpdateCheckpoint(Checkpoint checkpoint)
+    private void Start()
+    {
+        SwitchWorld();
+        if(m_ShouldWorldChange)
+            StartCoroutine(WorldCycling());
+    }
+
+    private void Update()
+    {
+
+    }
+
+    private void OnEnable() 
+    {
+        Checkpoint.OnActivate += OnCheckpointChanged;
+    }
+
+    private void OnDisable() 
+    {
+        Checkpoint.OnActivate -= OnCheckpointChanged;
+        s_Instance = s_Instance == this? null : s_Instance;
+    }
+
+    private void OnCheckpointChanged(Checkpoint checkpoint)
     {
         m_CurrentCheckpoint = checkpoint;
     }
 
+    private void Reset() 
+    {
+        m_Camera ??= FindObjectOfType<Camera>();
+    }
+
+    private IEnumerator WorldCycling()
+    {
+        while(true)
+        {
+            m_timeToFlip += Time.deltaTime;
+            m_Camera.backgroundColor = color;
+            color = firstCurrent ? LerpViaHSB(color, hell.skyColor, 0.005f) : LerpViaHSB(color, heaven.skyColor, 0.005f);
+            if(m_timeToFlip >= m_TimeBeforeChange)
+            {
+                m_timeToFlip = 0;
+                SwitchWorld();
+            }
+            yield return null;
+        }
+    }
+
+#if UNITY_EDITOR
     [ContextMenu("Add Checkpoints")]
     private void AddCheckpoints()
     {
         List<Checkpoint> activeCheckpoints = FindObjectsOfType<Checkpoint>().Where(c => c.Active == true).ToList();
-        if(activeCheckpoints.Count != 1)
-            Debug.LogError("The world needs to contain excactly one active checkpoint!");
+        if(activeCheckpoints.Count != 1) Debug.LogError("The world needs to contain excactly one active checkpoint!");
         m_CurrentCheckpoint = activeCheckpoints.First();
     }
 
@@ -79,25 +112,7 @@ public class WorldManager : MonoBehaviour
             SwitchWorld();
         }
     }
-
-    private void Update()
-    {
-        m_timeToFlip += Time.deltaTime;
-        cam.backgroundColor = color;
-        //color = firstCurrent ? Color.Lerp(color, hell.skyColor, m_timeToFlip / m_flipTime) : Color.Lerp(color, heaven.skyColor, m_timeToFlip / m_flipTime);
-        color = firstCurrent ? LerpViaHSB(color, hell.skyColor, 0.005f) : LerpViaHSB(color, heaven.skyColor, 0.005f);
-        //color = Color32.Lerp(color, hell.skyColor, m_timeToFlip / m_flipTime);
-    }
-
-    IEnumerator Timer()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(m_flipTime);
-            m_timeToFlip = 0;
-            SwitchWorld();
-        }
-    }
+#endif
 
     public Color LerpViaHSB(Color a, Color b, float t)
     {
