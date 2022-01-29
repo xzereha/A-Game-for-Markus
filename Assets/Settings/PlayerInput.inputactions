@@ -1,5 +1,5 @@
 {
-    "name": "PlayerControls",
+    "name": "PlayerInput",
     "maps": [
         {
             "name": "Gameplay",
@@ -25,6 +25,14 @@
                     "name": "WorldSwitch",
                     "type": "Button",
                     "id": "ee3b6e47-2860-451a-8017-2447a79a94e5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "9f5a562d-451a-4fcc-9074-147c34a520d5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -127,6 +135,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "WorldSwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6cbfa19e-4350-4748-8aca-6fe84676e0e2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
