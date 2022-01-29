@@ -19,7 +19,7 @@ public class Spike : MonoBehaviour
     {
         BoxCollider2D collider = GetComponent<BoxCollider2D>();
         collider.isTrigger = true;
-        collider.size = new Vector2(1.0f, 0.6f);
+        collider.size = new Vector2(0.9f, 0.6f);
         collider.offset = new Vector2(0.0f, 0.3f);
         gameObject.layer = LayerMask.NameToLayer("Death");
         gameObject.name = "Spike";
