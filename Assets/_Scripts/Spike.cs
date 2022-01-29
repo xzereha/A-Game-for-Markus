@@ -5,14 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D), typeof(SpriteRenderer))]
 public class Spike : MonoBehaviour
 {
+    [SerializeField] private SpriteData m_SpriteMap;
     private void OnTriggerEnter2D(Collider2D other) 
     {
         MessageHandler.TriggerEvent("KillPlayer");
     }
     
-    private void OnValidate() 
+    [ContextMenu("Randomize Sprite")]
+    private void RandomizeSprite()
     {
-        Reset();
+        if(m_SpriteMap == null) Debug.LogAssertion("No sprite data found");
+        SpriteData spriteData = m_SpriteMap;
+        int sprites = spriteData.SpikeSprits.Length;
+        int sprite = Random.Range(0, sprites);
+        GetComponent<SpriteRenderer>().sprite = spriteData.SpikeSprits[sprite];
     }
 
     private void Reset() 
@@ -23,11 +29,7 @@ public class Spike : MonoBehaviour
         collider.offset = new Vector2(0.0f, 0.3f);
         gameObject.layer = LayerMask.NameToLayer("Death");
         gameObject.name = "Spike";
-        SpriteData[] spriteDataArray = Resources.FindObjectsOfTypeAll<SpriteData>();
-        if(spriteDataArray.Length == 0) return;
-        SpriteData spriteData = spriteDataArray[0];
-        int sprites = spriteData.SpikeSprits.Length;
-        int sprite = Random.Range(0, sprites);
-        GetComponent<SpriteRenderer>().sprite = spriteData.SpikeSprits[sprite];
+        m_SpriteMap ??= Resources.FindObjectsOfTypeAll<SpriteData>()[0]; 
+        RandomizeSprite();
     }
 }

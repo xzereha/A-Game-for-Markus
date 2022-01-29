@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - m_SpikeSprites: {fileID: 11400000, guid: d5ff9bbca365ab64b992865e9a82f1e1, type: 2}
+  - m_SpriteMap: {fileID: 11400000, guid: d5ff9bbca365ab64b992865e9a82f1e1, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
