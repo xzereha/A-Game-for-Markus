@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
     {
         // Ground Check
         RaycastHit2D hit = Physics2D.BoxCast(m_GroundCheckCollider.transform.position + (Vector3)m_GroundCheckCollider.offset, m_GroundCheckCollider.size, 0, Vector2.down, 0.0f, m_CollisionLayer);
-        m_Grounded = hit.collider? true : false;
+        m_Grounded = hit.collider != null;
 
         // Jump handling
         m_Jumping = m_Jumping && m_YVelocity > 0.0f;
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
         m_XVelocity = Mathf.Clamp(m_XVelocity, -m_MovementSpeed, m_MovementSpeed);
 
         // Final movement
-        transform.Translate(new Vector3(m_XVelocity * Time.deltaTime, m_YVelocity * Time.deltaTime, 0));
+        transform.Translate(m_XVelocity * Time.deltaTime, m_YVelocity * Time.deltaTime, 0);
     }
 
 #region Helpers
@@ -134,4 +134,19 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
         m_CollisionLayer = 64;
     }
 #endregion
+
+
+    // TODO!!!!!!!!! REMOVE!!!!!
+    private void OnGUI() 
+    {
+        if(GUI.Button(new Rect(0, 60, 100, 40), "Die"))
+        {
+            transform.position = WorldManager.CurrentCheckpoint;
+            m_InputDirection = 0;
+            m_Grounded = false;
+            m_Jumping = false;
+            m_XVelocity = 0;
+            m_YVelocity = -1.0f;
+        }
+    }
 }
