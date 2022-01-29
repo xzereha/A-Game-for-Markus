@@ -135,6 +135,11 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
     {
 
     }
+
+    public void OnPause(InputAction.CallbackContext ctx)
+    {
+        MessageHandler.TriggerEvent("PauseGame");
+    }
 #endregion
 
 #region Editor

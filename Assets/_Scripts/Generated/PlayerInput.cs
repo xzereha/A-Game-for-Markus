@@ -41,6 +41,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f5a562d-451a-4fcc-9074-147c34a520d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -142,6 +150,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""WorldSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6cbfa19e-4350-4748-8aca-6fe84676e0e2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -176,6 +195,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_WorldSwitch = m_Gameplay.FindAction("WorldSwitch", throwIfNotFound: true);
+        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -228,6 +248,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_WorldSwitch;
+    private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
@@ -235,6 +256,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @WorldSwitch => m_Wrapper.m_Gameplay_WorldSwitch;
+        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -253,6 +275,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @WorldSwitch.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWorldSwitch;
                 @WorldSwitch.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWorldSwitch;
                 @WorldSwitch.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWorldSwitch;
+                @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -266,6 +291,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @WorldSwitch.started += instance.OnWorldSwitch;
                 @WorldSwitch.performed += instance.OnWorldSwitch;
                 @WorldSwitch.canceled += instance.OnWorldSwitch;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -293,5 +321,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnWorldSwitch(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }
