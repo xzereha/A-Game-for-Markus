@@ -49,6 +49,16 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
     private float m_XVelocity; //!< Current X velocity of the player
     private float m_YVelocity; //!< Current Y velocity of the player
 
+    public void Kill()
+    {
+        transform.position = WorldManager.CurrentCheckpoint;
+        m_InputDirection = 0;
+        m_Grounded = false;
+        m_Jumping = false;
+        m_XVelocity = 0;
+        m_YVelocity = -1.0f;
+    }
+
     private void Awake() 
     {
         m_Controls = new PlayerInput();
@@ -63,10 +73,12 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
     private void OnEnable() 
     {
         m_Controls.Gameplay.Enable();
+        MessageHandler.StartListen("KillPlayer", Kill);
     }
 
     private void OnDisable() 
     {
+        MessageHandler.StopListening("KillPlayer", Kill);
         m_Controls.Gameplay.Disable();
     }
 
@@ -141,12 +153,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
     {
         if(GUI.Button(new Rect(0, 60, 100, 40), "Die"))
         {
-            transform.position = WorldManager.CurrentCheckpoint;
-            m_InputDirection = 0;
-            m_Grounded = false;
-            m_Jumping = false;
-            m_XVelocity = 0;
-            m_YVelocity = -1.0f;
+            Kill();
         }
     }
 }
