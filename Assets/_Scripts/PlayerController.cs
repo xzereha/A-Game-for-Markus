@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
     [Tooltip("Box collider for detecting if the player is grounded or not")]
     [SerializeField] private BoxCollider2D m_GroundCheckCollider;
 
+    [Tooltip("Box collider for detecting if the player bumped her head")]
+    [SerializeField] private BoxCollider2D m_HeadCheckCollider;
+
     [Tooltip("What collision layers should count as ground")]
     [SerializeField] private LayerMask m_CollisionLayer;
 
@@ -87,6 +90,10 @@ public class PlayerController : MonoBehaviour, PlayerInput.IGameplayActions
         // Ground Check
         RaycastHit2D hit = Physics2D.BoxCast(m_GroundCheckCollider.transform.position + (Vector3)m_GroundCheckCollider.offset, m_GroundCheckCollider.size, 0, Vector2.down, 0.0f, m_CollisionLayer);
         m_Grounded = hit.collider != null;
+
+        //Head Check
+        RaycastHit2D hitHead = Physics2D.BoxCast(m_HeadCheckCollider.transform.position + (Vector3)m_HeadCheckCollider.offset, m_HeadCheckCollider.size, 0, Vector2.up, 0.0f, m_CollisionLayer);
+        m_YVelocity = (hitHead.collider != null && m_YVelocity > 0) ? 0 : m_YVelocity;
 
         // Jump handling
         m_Jumping = m_Jumping && m_YVelocity > 0.0f;
