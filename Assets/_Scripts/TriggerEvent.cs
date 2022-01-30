@@ -9,6 +9,7 @@ public class TriggerEvent : MonoBehaviour
     [Tooltip("Should the trigger send events more than once")]
     [SerializeField] private bool m_RepeatTrigger = true;
     [SerializeField] private bool m_EndOfLevel;
+    [SerializeField] private string[] m_TriggerMessages;
     public UnityEvent OnTrigger;
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -23,6 +24,10 @@ public class TriggerEvent : MonoBehaviour
         {
             OnTrigger.Invoke();
             GetComponent<Collider2D>().enabled = m_RepeatTrigger;
+            foreach(var message in m_TriggerMessages)
+            {
+                MessageHandler.TriggerEvent(message);
+            }
         }
     }
 

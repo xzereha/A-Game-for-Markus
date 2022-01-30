@@ -71,10 +71,16 @@ public class GameManager : MonoBehaviour
     {
         if(SceneManager.GetActiveScene().buildIndex == 0)
         {
+            MessageHandler.StartListen("GameOver", OnGameOver);
             AsyncOperation async = SceneManager.LoadSceneAsync(m_GameMenu, LoadSceneMode.Additive);
             async.completed += LoadGameMenu;
             LoadSceneInternal(m_MainMenu.ScenePath);
         }
+    }
+
+    private void OnGameOver()
+    {
+        LoadMainMenu();
     }
 
     private void OnSceneLoad(AsyncOperation task)
