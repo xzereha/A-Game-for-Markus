@@ -9,7 +9,7 @@ public class TriggerEvent : MonoBehaviour
     [Tooltip("Should the trigger send events more than once")]
     [SerializeField] private bool m_RepeatTrigger = true;
     [SerializeField] private bool m_EndOfLevel;
-    [SerializeField] private string[] m_TriggerMessages;
+    [SerializeField] private List<string> m_TriggerMessages = new List<string>();
     public UnityEvent OnTrigger;
 
     private void OnTriggerEnter2D(Collider2D other) 
